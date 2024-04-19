@@ -106,7 +106,7 @@ Queries have the syntax `TYPE or Unique Name: Semi-colon separated Conditions`. 
 | `str`   | "in quotes"      |
 | `list`  | comma, separated |
 
-There are a number of comparison operators. Most of them are well-known and obvious. I invented a few that are not obvious, at all. Here is a table that explains all of the operators.
+There are a number of comparison operators. Most of them are well-known and obvious. I invented a few that are not obvious, at all. Below is a table that explains all of the operators. Note that chaining operators in a manner that is logical is allowed ex: `book: 3 <= rating <= 5`. In this example `rating` is a field of `Book`, and it will be replaced with the `rating` value of the book instance that is currently being processed.
 
 | op | description                                |
 | -- | ------------------------------------------ |
@@ -144,4 +144,23 @@ db[UNIQUE] = Book(0, title="some title", author="some author")
 # please note that using this version will traverse the ENTIRE database, skipping everything that is not a `Book`,...
 # find the highest `book_instance.id`, and add 1
 db[UNIQUE] = Book(UNIQUE, title="some title", author="some author")
+```
+
+## Specifics
+
+We have covered all of the most basic facts and usage of every available `rack` import. The following information will include the "meat and potatoes" of the specific usages of this package. There are numerous tricks and intracacies. I intend to illustrate all of them. Let's start with queries.
+
+### Queries
+
+The `Query` module is designedc to concoct and parse queries. From the parsing perspective there isn't anything for you to be concerned with. Parsing is built into the database and is triggered automatically as it is necessary. For concocting queries you will want to use `Query.statement`. Expanding upon our `Library` class we can easily illustrate how to create prepared statements
+
+```python3
+from rack        import Database, Entry, Tag, Query, UNIQUE
+from dataclasses import dataclass, field
+
+class Library(Database):
+    TYPES = Author, Book
+    
+    def __init__(self, wipe:bool=False) -> None:
+        Database.__init__(self, dbname='library', wipe=wipe)
 ```
