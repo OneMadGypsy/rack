@@ -225,4 +225,41 @@ if __name__ == "__main__":
     print(db[unique_query])
 ```
 
+### Foreign Keys
+
+Foreign keys are butt-simple. If we use my `Author` class from the above examples this is what can be expected:
+
+1) upon committing an `Author` to the database, it will be saved "as-is"
+2) upon retrieving it from the database, `.fk_books` will be processed and it's final data will be stored in a `.books` property. Whatever you put after `fk_` will be the name of the property that you can request the final data from
+
+```python3
+db[UNIQUE] = ab_cee = Author(UNIQUE, name="A.B. Cee", fk_books=('book_0', 'book_5', 'book_17'))
+print(ab_cee.books)
+```
+
+#### output
+```python3
+{
+    "id": 0,
+    "type": "book",
+    "title": "My Book",
+    "author": "A.B. Cee",
+    "rating": 1
+}
+{
+    "id": 5,
+    "type": "book",
+    "title": "My Other Book",
+    "author": "A.B. Cee",
+    "rating": 2
+}
+{
+    "id": 17,
+    "type": "book",
+    "title": "I Keep Writing Books!",
+    "author": "A.B. Cee",
+    "rating": 3
+}
+```
+
 **I have been working on these docs for hours and I need a break. It's roughly 6pm CST Friday, April 19th 2024. I intend to be back around 8pm to continue writing this. There is actually enough information here for anyone to begin using this. If you are clever, there is even enough information for you to do things that I haven't illustrated based on things I have inferred earlier in the document. I assure you, I have not done all of this work just to stop here. I WILL be back.**
