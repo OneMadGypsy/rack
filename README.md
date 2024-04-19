@@ -60,7 +60,7 @@ db['some_unique_key'] = Tag(0, fk_data=('book_0', 'book_1'))
 print(db['some_unique_key'])
 ```
 #### output
-**note**: printing entries will always result in pretty-printed JSON, but `db['some_unique_key']` is actually a `list` of `Book` entries
+**note**: printing `Entry` types will always result in pretty-printed JSON, but `db['some_unique_key']` is actually a `list` of `Book` entries, in this case. Of course the example below is just illustratory and you aren't goping to magically have entries in your database that you never created.
 ```python3
 {
     "id": 0,
