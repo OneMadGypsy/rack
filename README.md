@@ -163,7 +163,7 @@ We have covered all of the most basic facts and usage of every available `rack` 
 
 ### Queries
 
-The `Query` module is designed to concoct and parse queries. From the parsing perspective there isn't anything for you to be concerned with. Parsing is built into the database and is triggered automatically as it is necessary. For concocting queries you will want to use `Query.statement`. Expanding upon our `Library` class we can easily illustrate how to create prepared statements. For the below example we are going to pretend that a bunch of books magically exist. I will flesh out more complete examples as we get further along. For now, let's work with a gist that focusses on what we are trying to illustrate.
+The `Query` module is designed to concoct and parse queries. From the parsing perspective there isn't anything for you to be concerned with. Parsing is built into the database and is triggered automatically as it is necessary. For concocting queries you will want to use `Query.statement`. `Query.statement` does all of the boilerplate for you. You simply supply all of the proper arguments in a pythonic way, and it will combine and format it into a query that `Database` understands. Expanding upon our `Library` class we can easily illustrate how to create prepared statements. For the below example we are going to pretend that a bunch of books magically exist. I will flesh out more complete examples as we get further along. For now, let's work with a gist that focuses on what we are trying to illustrate.
 
 ```python3
 from rack        import Database, Entry, Tag, Query, UNIQUE
