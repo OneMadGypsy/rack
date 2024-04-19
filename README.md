@@ -240,6 +240,8 @@ print(ab_cee.books)
 ```
 
 #### output
+
+**reminder:** this is actually a list of `Book` instances, it just prints as JSON
 ```python3
 {
     "id": 0,
