@@ -202,6 +202,6 @@ if __name__ == "__main__":
     # exact same concept as `rated_books` but we use kwargs instead of args
     unique_query = Library.unique_book(author="A.B. Cee", title="My Fist Book")
 
-    # this is absolutely valid
+    # you can absolutely use a query for a database key
     print(db[unique_query])
 ```
