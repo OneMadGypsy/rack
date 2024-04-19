@@ -185,5 +185,12 @@ if __name__ == "__main__":
     db.make_once('book_rating', Tag(UNIQUE, fk_data=rate_query))
 
     # will return the results of the query, which will be a list of all the `Book` entries with a rating from 2 to 5, inclusive
-    print(db['book_rating']) 
+    # by authors that are present in the supplied tuple of authors in the 3rd argument 
+    print(db['book_rating'])
+
+    # exact same concept as `rated_books` but we use kwargs instead of args
+    unique_query = Library.unique_book(author="A.B. Cee", title="My Fist Book")
+
+    # this is absolutely valid
+    print(db[unique_query])
 ```
