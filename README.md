@@ -11,9 +11,9 @@ A shelve wrapper that adds the following features:
 8) integration with `dataclasses`
 9) numerous syntax tricks and implied behavior
 
-# Overview
+## Overview
 
-## Entries
+### Entries
 
 The usage of this package starts with extending the `Entry` class and modifying your extension with the fields that you want to store in your database. There is no way around this. All database entry data is checked if it is an instance of `Entry` and then further checked if your `Entry` subclass is registered. Subclasses of `Entry` must overwrite the `TYPE` constant with a unique name. This name is used to register the custom entry, as-well-as create a unique name for it to be accessed by. Here is a simple example of a custom database entry.
 
@@ -53,7 +53,7 @@ class Author(Entry):
     fk_books:list = field(default_factory=list)
 ```
 
-## Tags
+### Tags
 
 There is a special `Entry` subclass built-in named `Tag`. A tag is used to store arbitrary data that does not really qualify to be considered as an `Entry` subclass. It can also be used to store foreign keys or foreign queries. There is no reason to subclass `Tag`, and doing so actually defeats the purpose of `Tag`. `Tag` only has 2 fields: `data` and `fk_data`. You can store anything that can be serialized as JSON on the `data` field. Alternately, you can store one or more foreign keys or a foreign query in the `fk_data` field. If you set `fk_data` to anything at all `data` will be overwritten with the processed `fk_data` results. Tags have the special behavior that they are returned from the database as the value of `data`, instead of a `Tag` class. Below is an example of `Tag` usage and results. Please note that the syntax for this example is designed to be written in a way that you understand it. There is a MUCh better way to do this. We haven't covered that yet.
 
@@ -61,7 +61,7 @@ There is a special `Entry` subclass built-in named `Tag`. A tag is used to store
 db['some_unique_key'] = Tag(0, fk_data=('book_0', 'book_1'))
 print(db['some_unique_key'])
 ```
-### output
+#### output
 **note**: printing `Entry` types will always result in pretty-printed JSON, but `db['some_unique_key']` is actually a `list` of `Book` entries, in this case. Of course the example below is just illustratory and you aren't goping to magically have entries in your database that you never created. However, `id` and `type` fields will always be present in your entries as they are built into the `Entry` class, and are mandatory for any of this to work in the first place.
 ```python3
 {
@@ -80,7 +80,7 @@ print(db['some_unique_key'])
 }
 ```
 
-## Database
+### Database
 
 The `Database` class is intended to be extended. Using it directly would be cumbersome as it only contains very general-purpose features. It is up to you to combine those features in a subclass to create more specific behavior. You must overwrite the `TYPES` constant with a `list|tuple` of the `Entry` subclasses that you want to register with the database. The order that you put these in will determine the order that database is sorted when `db.sort()` is called. Below is a bare-bones example of a `Database` subclass. `dbname` is the name that your database will be created and accessed with. Setting `wipe` to `True` will completely erase your database and create a new empty database. You will **NOT** be asked or warned if you really want to do this.
 
@@ -95,7 +95,7 @@ class Library(Database):
         Database.__init__(self, dbname='library', wipe=wipe)
 ```
 
-## Queries
+### Queries
 Queries have the syntax `TYPE or Unique Name: Semi-colon separated Conditions`. If we use the `Book` entry above an example query could be `'book: author <%. "D"; title <%. "T"'`. This example would give the results of every book by an author that starts with (`<%`) "D", having a title that starts with "T", using a lowercase (`.`) comparison. The allowed datatypes in a query are `float`, `int`, `bool`, `str` and `list`. The syntax for each are as follows:
 
 | type    | example          |
@@ -132,7 +132,7 @@ There are a number of comparison operators. Most of them are well-known and obvi
 |<   | less-than                                  |
 |>   | greater-than                               |
 
-## UNIQUE
+### UNIQUE
 
 `UNIQUE` is a sentinel value that indicates to the database to basically figure out what an `id` should be for you or to use the `.unique` property of the assigned value, depending on context. For full transparency, `UNIQUE` is just an alias for `dataclasses.MISSING`. Below illustrates the behavior of `UNIQUE`.
 
