@@ -53,7 +53,7 @@ class Author(Entry):
     fk_books:list = field(default_factory=list)
 ```
 
-`Entry` extends a mixin that adds a bunch of features to dataclasses. Most of the features allow dataclasses to be treated like a `dict`. WHile I am fleshing out all of this documentation I do not believe it is immediately important to describe all of the possibilities. If you want to discover them yourself, simply go to `mixins.py` and look at the `Dataclass_mi` class. I will revisit this section after I have documented the more important features of my package, and go into greater detail of all of the possibilities. For the most basic overview, assuming `entry` is an instance of `Entry`, the following is possible:
+`Entry` extends a mixin that adds a bunch of features to dataclasses. Most of the features allow dataclasses to be treated like a `dict`. WHile I am fleshing out all of this documentation I do not believe it is immediately important to describe all of the possibilities. If you want to discover them yourself, simply go to `mixins.py` and look at the `Dataclass_mi` class. I will revisit this section after I have documented the more important features of my package, and go into greater detail of all of the possibilities. For the most basic overview, assuming `entry` is an instance of `Entry` (OR `Entry` subclass), the following is possible:
 
 1) `entry.keys()`
 2) `entry.values()`
