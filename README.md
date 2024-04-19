@@ -25,7 +25,7 @@ class Book(Entry):
     rating:int = 0
 ```
 
-You can make as many `Entry` sublasses as you need. The below is to imply that our database will include books and authors. You will notice that `Author` has a `fk_books` field. Prepending a field with `fk_` implies that the field will contain one or more foreign keys. I will go into more detail regarding foreign keys later in this documentation.
+You can make as many `Entry` sublasses as you need. The below is to imply that our database will include books and authors. You will notice that `Author` has a `fk_books` field. Prepending a field with `fk_` implies that the field will contain one or more foreign keys. I will go into more detail regarding foreign keys later in this documentation, but know that the `fk_` prefix is something that the database specifically looks for. You cannot use it arbitrarily.
 
 ```python3
 from rack        import Database, Entry, Tag, Query, UNIQUE
