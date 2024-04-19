@@ -53,6 +53,17 @@ class Author(Entry):
     fk_books:list = field(default_factory=list)
 ```
 
+`Entry` extends a mixin that adds a bunch of features to dataclasses. Most of the features allow dataclasses to be treated like a `dict`. WHile I am fleshing out all of this documentation I do not believe it is immediately important to describe all of the possibilities. If you want to discover them yourself, simply go to `mixins.py` and look at the `Dataclass_mi` class. I will revisit this section after I have documented the more important features of my package, and go into greater detail of all of the possibilities. For the most basic overview, assuming `entry` is an instance of `Entry`, the following is possible:
+
+1) `entry.keys()`
+2) `entry.values()`
+3) `entry.items()`
+4) `**entry`
+5) `print(entry)` - pretty-printed JSON representation of entry
+6) `entry.kwargs('some_field', 'some_other_field')` returns `{'some_field': value1, 'some_other_field': value2}`
+7) `entry.args('some_field', 'some_other_field')` returns `[value1, value2]`
+8) `entry(...)` - has complex behavior, I'll explain later
+
 ### Tags
 
 There is a special `Entry` subclass built-in named `Tag`. A tag is used to store arbitrary data that does not really qualify to be considered as an `Entry` subclass. It can also be used to store foreign keys or foreign queries. There is no reason to subclass `Tag`, and doing so actually defeats the purpose of `Tag`. `Tag` only has 2 fields: `data` and `fk_data`. You can store anything that can be serialized as JSON on the `data` field. Alternately, you can store one or more foreign keys or a foreign query in the `fk_data` field. If you set `fk_data` to anything at all `data` will be overwritten with the processed `fk_data` results. Tags have the special behavior that they are returned from the database as the value of `data`, instead of a `Tag` class. Below is an example of `Tag` usage and results. Please note that the syntax for this example is designed to be written in a way that you understand it. There is a MUCh better way to do this. We haven't covered that yet.
@@ -181,7 +192,7 @@ if __name__ == "__main__":
 
     # this will only make this Tag ONE time (as in forever), determining it's `id` ONE time
     # since `fk_data` is a query, the query will be run everytime this tag is requested from the database
-    # the results of the query will overwrite `.data`, and requesting this tag will return the value of `data` 
+    # the results of the query will overwrite `.data`, and requesting this tag will return the value of `.data` 
     db.make_once('book_rating', Tag(UNIQUE, fk_data=rate_query))
 
     # will return the results of the query, which will be a list of all the `Book` entries with a rating from 2 to 5, inclusive
