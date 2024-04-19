@@ -169,6 +169,24 @@ The `Query` module is designed to concoct and parse queries. From the parsing pe
 from rack        import Database, Entry, Tag, Query, UNIQUE
 from dataclasses import dataclass, field
 
+
+@dataclass
+class Book(Entry):
+    TYPE = "book"
+
+    title:str
+    author:str
+    rating:int = 0
+    
+    
+@dataclass
+class Author(Entry):
+    TYPE = "author"
+    
+    name:str
+    fk_books:list = field(default_factory=list)
+
+
 class Library(Database):
     TYPES = Author, Book
     
@@ -184,6 +202,7 @@ class Library(Database):
         
     def __init__(self, wipe:bool=False) -> None:
         Database.__init__(self, dbname='library', wipe=wipe)
+
 
 if __name__ == "__main__":
     db = Library()
