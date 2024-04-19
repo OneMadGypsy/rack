@@ -53,7 +53,30 @@ class Author(Entry):
 
 ## Tags
 
-There is a special `Entry` subclass built-in named `Tag`. A tag is used to store arbitrary data that does not really qualify to be considered as an `Entry` subclass. It can also be used to store foreign keys or foreign queries. There is no reason to subclass `Tag`, and doing so actually defeats the purpose of `Tag`. There are examples later in this document of `Tag` usage.
+There is a special `Entry` subclass built-in named `Tag`. A tag is used to store arbitrary data that does not really qualify to be considered as an `Entry` subclass. It can also be used to store foreign keys or foreign queries. There is no reason to subclass `Tag`, and doing so actually defeats the purpose of `Tag`. `Tag` only has 2 fields: `data` and `fk_data`. You can store anything that can be serialized as JSON on the `data` field. Alternately, you can store one or more foreign keys or a foreign query in the `fk_data` field. If you set `fk_data` to anything at all `data` will be overwritten with the processed `fk_data` field. Tags have the special behavior that they are returned from the database as the value of `data`, instead of a `Tag` class. Below is an example of `Tag` usage and results. Please note that the syntax for this example is designed to be written in a way that you understand it. There is a MUCh better way to do this. We haven't covered that yet.
+
+```python3
+db['some_unique_key'] = Tag(0, fk_data=('book_0', 'book_1'))
+print(db['some_unique_key'])
+```
+#### output
+**note**: printing entries will always result in pretty-printed JSON, but `db['some_unique_key']` is actually a `list` of `Book` entries
+```python3
+{
+    "id": 0,
+    "type": "book",
+    "title": "The B",
+    "author": "A.B. Cee",
+    "rating": 4
+}
+{
+    "id": 1,
+    "type": "book",
+    "title": "E Up!",
+    "author": "B.C. Dea",
+    "rating": 4
+}
+```
 
 ## Database
 
