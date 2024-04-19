@@ -225,4 +225,4 @@ if __name__ == "__main__":
     print(db[unique_query])
 ```
 
-**I have been working on these docs for hours and I need a break. It's roughly 6pm CST Friday, April 19th 2024. I intend to be back around 8pm to continue writing this**
+**I have been working on these docs for hours and I need a break. It's roughly 6pm CST Friday, April 19th 2024. I intend to be back around 8pm to continue writing this. There is actually enough information here for anyone to begin using this. If you are clever, there is even enough information for you to do things that I haven't illustrated based on things I have inferred earlier in the document. I assure you, I have not done all of this work just to stop here. I WILL be back.**
