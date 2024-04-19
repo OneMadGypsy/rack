@@ -1,5 +1,4 @@
-# rack - if you can read this I am expanding this document right now. I did not forget to delete this. right now means RIGHT NOW
-A shelve wrapper that adds the following features:
+# rack
 
 1) dictionary behavior (`db.keys()`, `db.values()`, `db.items()`, `db[id or query]`)
 2) foreign keys
@@ -222,5 +221,8 @@ if __name__ == "__main__":
     unique_query = Library.unique_book(author="A.B. Cee", title="My Fist Book")
 
     # you can absolutely use a query for a database key
+    # it's one of the main reasons I created this package
     print(db[unique_query])
 ```
+
+**I have been working on these docs for hours and I need a break. It's roughly 6pm CST Friday, April 19th 2024. I intend to be back around 8pm to continue writing this**
