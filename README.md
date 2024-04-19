@@ -11,6 +11,8 @@ A shelve wrapper that adds the following features:
 8) integration with `dataclasses`
 9) numerous syntax tricks and implied behavior
 
+# Overview
+
 ## Entries
 
 The usage of this package starts with extending the `Entry` class and modifying your extension with the fields that you want to store in your database. There is no way around this. All database entry data is checked if it is an instance of `Entry` and then further checked if your `Entry` subclass is registered. Subclasses of `Entry` must overwrite the `TYPE` constant with a unique name. This name is used to register the custom entry, as-well-as create a unique name for it to be accessed by. Here is a simple example of a custom database entry.
@@ -59,7 +61,7 @@ There is a special `Entry` subclass built-in named `Tag`. A tag is used to store
 db['some_unique_key'] = Tag(0, fk_data=('book_0', 'book_1'))
 print(db['some_unique_key'])
 ```
-#### output
+### output
 **note**: printing `Entry` types will always result in pretty-printed JSON, but `db['some_unique_key']` is actually a `list` of `Book` entries, in this case. Of course the example below is just illustratory and you aren't goping to magically have entries in your database that you never created. However, `id` and `type` fields will always be present in your entries as they are built into the `Entry` class, and are mandatory for any of this to work in the first place.
 ```python3
 {
