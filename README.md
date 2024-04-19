@@ -28,7 +28,7 @@ class Book(Entry):
     rating:int = 0
 ```
 
-You can make as many `Entry` sublasses as you need. The below is to imply that our database will include books and authors. You will notice that `Author` has a `fk_books` field. Prepending a field with `fk_` implies that the field will contain one or more foreign keys. I will go into more detail regarding foreign keys later in this documentation, but know that the `fk_` prefix is something that the database specifically looks for. You cannot use it arbitrarily.
+You can make as many `Entry` sublasses as you need. The below is to imply that our database will include books and authors. You will notice that `Author` has a `fk_books` field. Prepending a field with `fk_` implies that the field will contain one or more foreign keys or a foreign query. I will go into more detail regarding foreign keys later in this documentation, but know that the `fk_` prefix is something that the database specifically looks for. You cannot use it arbitrarily.
 
 ```python3
 from rack        import Database, Entry, Tag, Query, UNIQUE
@@ -53,5 +53,16 @@ class Author(Entry):
 
 ## Tags
 
-There is a special `Entry` subclass built-in named `Tag`. A tag is used to store arbitrary data that does not really qualify to be considered as an `Entry` subclass. It can also be used to store foreign keys or foreign queries. There is no reason to subclass `Tag`, and doing so actually defeats the purpose of `Tag`. There are exammples later in this document of `Tag` usage.
+There is a special `Entry` subclass built-in named `Tag`. A tag is used to store arbitrary data that does not really qualify to be considered as an `Entry` subclass. It can also be used to store foreign keys or foreign queries. There is no reason to subclass `Tag`, and doing so actually defeats the purpose of `Tag`. There are examples later in this document of `Tag` usage.
 
+## Database
+
+The `Database` class is intended to be extended. Using it directly would be cumbersome as it only contains very general-purpose features. It is up to you to combine those features in a subclass to create more specific behavior. You must overwrite the `TYPES` constant with a `list|tuple` of the `Entry` subclasses that you want to register with the database. The order that you put these in will determine the order that database is sorted when `db.sort()` is called. Below is a bare-bones example of a `Database` subclass. `dbname` is the name that your database will be created and accessed with. Setting `wipe` to `True` will completely erase your database and create a new empty database. You will **NOT** be asked or warned if you really want to do this.
+
+```python3
+class Library(Database):
+    TYPES = Author, Book
+    
+    def __init__(self, wipe:bool=False) -> None:
+        Database.__init__(self, dbname='library', wipe=wipe)
+```
