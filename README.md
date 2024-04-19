@@ -152,7 +152,7 @@ We have covered all of the most basic facts and usage of every available `rack` 
 
 ### Queries
 
-The `Query` module is designedc to concoct and parse queries. From the parsing perspective there isn't anything for you to be concerned with. Parsing is built into the database and is triggered automatically as it is necessary. For concocting queries you will want to use `Query.statement`. Expanding upon our `Library` class we can easily illustrate how to create prepared statements
+The `Query` module is designed to concoct and parse queries. From the parsing perspective there isn't anything for you to be concerned with. Parsing is built into the database and is triggered automatically as it is necessary. For concocting queries you will want to use `Query.statement`. Expanding upon our `Library` class we can easily illustrate how to create prepared statements. For the below example we are going to pretend that a bunch of books magically exist. I will flesh out more complete examples as we get further along. For now, let's work with a gist that focusses on what we are trying to illustrate.
 
 ```python3
 from rack        import Database, Entry, Tag, Query, UNIQUE
@@ -161,6 +161,29 @@ from dataclasses import dataclass, field
 class Library(Database):
     TYPES = Author, Book
     
+    @staticmethod # kwargs example
+    def unique_book(*args, **kwargs) -> str:
+        conditions = 'author == {author} ; title == {title}'
+        return Query.statement(Book.TYPE, conditions, *args, **kwargs)
+    
+    @staticmethod # args example   
+    def rated_books(*args, **kwargs) -> str:
+        conditions = '{} <= rating <= {} ; author -> {}'
+        return Query.statement(Book.TYPE, conditions, *args, **kwargs)
+        
     def __init__(self, wipe:bool=False) -> None:
         Database.__init__(self, dbname='library', wipe=wipe)
+
+if __name__ == "__main__":
+    db = Library()
+
+    rate_query = Library.rated_books(2, 5, ('A.B. Cee', 'B.C. Dea'))
+
+    # this will only make this Tag ONE time (as in forever), determining it's `id` ONE time
+    # since `fk_data` is a query, the query will be run everytime this tag is requested from the database
+    # the results of the query will overwrite `.data`, and requesting this tag will return the value of `data` 
+    db.make_once('book_rating', Tag(UNIQUE, fk_data=rate_query))
+
+    # will return the results of the query, which will be a list of all the `Book` entries with a rating from 2 to 5, inclusive
+    print(db['book_rating']) 
 ```
