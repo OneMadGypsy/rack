@@ -141,6 +141,7 @@ There are a number of comparison operators. Most of them are well-known and obvi
 db[UNIQUE] = Book(0, title="some title", author="some author")
 
 # this would do the same as above, but first it would find the next available id for the book instance
-# please note that using this version will traverse the ENTIRE database, skipping everything that is not a `Book`, find the highest `book_instance.id`, and add 1
+# please note that using this version will traverse the ENTIRE database, skipping everything that is not a `Book`,...
+# find the highest `book_instance.id`, and add 1
 db[UNIQUE] = Book(UNIQUE, title="some title", author="some author")
 ```
