@@ -71,7 +71,17 @@ class Library(Database):
 ```
 
 ## Queries
-Queries have the syntax `TYPE or Unique Name: Semi-colon separated Conditions`. If we use the `Book` entry above an example query could be `'book: author <%. "D"; title <%. "T"'`. This example would give the results of every book by an author that starts with (`<%`) "D", having a title that starts with "T", using a lowercase (`.`) comparison. There are a number of comparison operators. Most of them are well-known and obvious. I invented a few that are not obvious, at all. Here is a table that explains all of the operators.
+Queries have the syntax `TYPE or Unique Name: Semi-colon separated Conditions`. If we use the `Book` entry above an example query could be `'book: author <%. "D"; title <%. "T"'`. This example would give the results of every book by an author that starts with (`<%`) "D", having a title that starts with "T", using a lowercase (`.`) comparison. The allowed datatypes in a query are `float`, `int`, `bool`, `str` and `list`. The syntax for each are as follows:
+
+| type    | example          |
+| ------- | ---------------- |
+| `float` | 3.14             |
+| `int`   | 42               |
+| `bool`  | True             |
+| `str`   | "in quotes"      |
+| `list`  | comma, separated |
+
+There are a number of comparison operators. Most of them are well-known and obvious. I invented a few that are not obvious, at all. Here is a table that explains all of the operators.
 
 | op | description                                |
 | -- | ------------------------------------------ |
