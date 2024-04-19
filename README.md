@@ -233,7 +233,7 @@ Foreign keys are butt-simple. If we use my `Author` class from the above example
 2) upon retrieving it from the database, `.fk_books` will be processed and it's final data will be stored in a `.books` property. Whatever you put after `fk_` will be the name of the property that you can request the final data from
 
 ```python3
-db[UNIQUE] = ab_cee = Author(UNIQUE, name="A.B. Cee", fk_books=('book_0', 'book_5', 'book_17'))
+ab_cee = db[UNIQUE] = Author(UNIQUE, name="A.B. Cee", fk_books=('book_0', 'book_5', 'book_17'))
 print(ab_cee.books)
 ```
 
