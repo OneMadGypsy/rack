@@ -232,6 +232,8 @@ Foreign keys are butt-simple. If we use my `Author` class from the above example
 1) upon committing an `Author` to the database, it will be saved "as-is"
 2) upon retrieving it from the database, `.fk_books` will be processed and it's final data will be stored in a `.books` property. Whatever you put after `fk_` will be the name of the property that you can request the final data from
 
+**note:** `.books` will not exist in the database. It is created on-the-fly when an author is requested from the database, and instanced as an `Author`. Of course this is on purpose. What is the point of the foreign keys if we are just going to store copies of all the `Book` entries on the `Author`?
+
 ```python3
 # this is not wrong - db.__setitem__ returns and can be used as a right-side-expression
 # which in this case will return the author with the id corrected from UNIQUE
