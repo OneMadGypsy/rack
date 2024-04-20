@@ -393,7 +393,7 @@ if __name__ == "__main__":
     db.sort()
 
     # backup the database
-    # this can except an argument that sets the filename (without extension) for the backup
+    # this can accept a `name` argument that sets the filename (without extension) for the backup
     # if no argument is supplied the backup will have the same filename as the database name
     # `.restore()` works the same way but in the opposite direction
     db.backup()
