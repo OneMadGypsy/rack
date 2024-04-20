@@ -1,6 +1,6 @@
 # rack
 
-A `shelve` wrapper that adds numerous useful features 
+A `shelve` wrapper that adds numerous useful features. This documentation is a work-in-progress. I need a little more time to flesh everything out, and then refactor/reorganize everything to be a cohesive unit with a progressing flow. Pretty much everything that can be done is either illustrated or mentioned. I apologize if anything is written confusingly or poorly. I assure you that I care about my project and hope to have this documentation in order soon.
 
 1) dictionary behavior (`db.keys()`, `db.values()`, `db.items()`, `db[id or query]`)
 2) foreign keys
@@ -279,5 +279,3 @@ print(ab_cee.books)
     "rating": 3
 }
 ```
-
-**I have been working on these docs for hours and I need a break. It's roughly 6pm CST Friday, April 19th 2024. I intend to be back around 8pm to continue writing this. There is actually enough information here for anyone to begin using this. If you are clever, there is even enough information for you to do things that I haven't illustrated based on things I have inferred earlier in the document. I assure you, I have not done all of this work just to stop here. I WILL be back.**
