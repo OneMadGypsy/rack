@@ -1,4 +1,6 @@
 # rack
+A shelve warpper that adds numerous useful features 
+--------
 
 1) dictionary behavior (`db.keys()`, `db.values()`, `db.items()`, `db[id or query]`)
 2) foreign keys
