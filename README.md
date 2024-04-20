@@ -282,7 +282,7 @@ print(ab_cee.books)
 
 ## Full Usage Example
 
-```
+```python3
 from rack        import Database, Entry, Tag, Query, UNIQUE
 from dataclasses import dataclass, field
 from typing      import Iterable
