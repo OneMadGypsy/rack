@@ -99,7 +99,7 @@ class Tag(Entry):
             
 class Database:
     TYPES   = (Entry,) # overwrite in a subclass
-    ZIP_EXT = 'jiz'     # Zipped JSON
+    ZIP_EXT = 'jiz'   # JSON in .zip (technically .7z)
 
     @property
     def _bin(self) -> dict:
