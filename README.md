@@ -54,7 +54,7 @@ class Author(Entry):
     fk_books:list = field(default_factory=list)
 ```
 
-`Entry` extends a mixin that adds a bunch of features to dataclasses. Most of the features allow dataclasses to be treated like a `dict`. WHile I am fleshing out all of this documentation I do not believe it is immediately important to describe all of the possibilities. If you want to discover them yourself, simply go to `mixins.py` and look at the `Dataclass_mi` class. I will revisit this section after I have documented the more important features of my package, and go into greater detail of all of the possibilities. For the most basic overview, assuming `entry` is an instance of `Entry` (or `Entry` subclass), the following is possible:
+`Entry` extends a mixin that adds a bunch of features to dataclasses. Most of the features allow dataclasses to be treated like a `dict`. While I am fleshing out all of this documentation I do not believe it is immediately important to describe all of the possibilities. If you want to discover them yourself, simply go to `mixins.py` and look at the `Dataclass_mi` class. I will revisit this section after I have documented the more important features of my package, and go into greater detail of all of the possibilities. For the most basic overview, assuming `entry` is an instance of `Entry` (or `Entry` subclass), the following is possible:
 
 1) `entry.keys()`
 2) `entry.values()`
@@ -69,7 +69,7 @@ class Author(Entry):
 
 ### Tags
 
-There is a special `Entry` subclass built-in named `Tag`. A tag is used to store arbitrary data that does not really qualify to be considered as an `Entry` subclass. It can also be used to store foreign keys or a foreign query. There is no reason to subclass `Tag`, and doing so actually defeats the purpose of `Tag`. `Tag` only has 2 fields: `data` and `fk_data`. You can store anything that can be serialized as JSON on the `data` field. Alternately, you can store one or more foreign keys or a foreign query in the `fk_data` field. If you set `fk_data` to anything at all, `data` will be overwritten with the processed `fk_data` results. Tags have the special behavior that they are returned from the database as the value of `data`, instead of a `Tag` class. Below is an example of `Tag` usage and results. Please note that the syntax for this example is designed to be written in a way that you understand it. There is a MUCh better way to do this. We haven't covered that yet.
+There is a special `Entry` subclass built-in named `Tag`. A tag is used to store arbitrary data that does not really qualify to be considered as an `Entry` subclass. It can also be used to store foreign keys or a foreign query. There is no reason to subclass `Tag`, and doing so actually defeats the purpose of `Tag`. `Tag` only has 2 fields: `data` and `fk_data`. You can store anything that can be serialized as JSON on the `data` field. Alternately, you can store one or more foreign keys or a foreign query in the `fk_data` field. If you set `fk_data` to anything at all, `data` will be overwritten with the processed `fk_data` results. Tags have the special behavior that they are returned from the database as the value of `data`, instead of a `Tag` class. Below is an example of `Tag` usage and results. Please note that the syntax for this example is designed to be written in a way that you understand it. There is a MUCH better way to do this. We haven't covered that yet.
 
 ```python3
 db['some_unique_key'] = Tag(0, fk_data=('book_0', 'book_1'))
