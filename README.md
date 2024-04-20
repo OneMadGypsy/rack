@@ -63,6 +63,8 @@ class Author(Entry):
 7) `entry.args('some_field', 'some_other_field')` returns `[value1, value2]`
 8) `entry(...)` - has complex behavior, I'll explain later
 
+--------
+
 ### Tags
 
 There is a special `Entry` subclass built-in named `Tag`. A tag is used to store arbitrary data that does not really qualify to be considered as an `Entry` subclass. It can also be used to store foreign keys or a foreign query. There is no reason to subclass `Tag`, and doing so actually defeats the purpose of `Tag`. `Tag` only has 2 fields: `data` and `fk_data`. You can store anything that can be serialized as JSON on the `data` field. Alternately, you can store one or more foreign keys or a foreign query in the `fk_data` field. If you set `fk_data` to anything at all, `data` will be overwritten with the processed `fk_data` results. Tags have the special behavior that they are returned from the database as the value of `data`, instead of a `Tag` class. Below is an example of `Tag` usage and results. Please note that the syntax for this example is designed to be written in a way that you understand it. There is a MUCh better way to do this. We haven't covered that yet.
@@ -90,6 +92,8 @@ print(db['some_unique_key'])
 }
 ```
 
+--------
+
 ### Database
 
 The `Database` class is intended to be extended. Using it directly would be cumbersome as it only contains very general-purpose features. It is up to you to combine those features in a subclass to create more specific behavior. You must overwrite the `TYPES` constant with a `list|tuple` of the `Entry` subclasses that you want to register with the database. The order that you put these in will determine the order that database is sorted when `db.sort()` is called. Below is a bare-bones example of a `Database` subclass. `dbname` is the name that your database will be created and accessed with. Setting `wipe` to `True` will completely erase your database and create a new empty database. You will **NOT** be asked or warned if you really want to do this.
@@ -104,6 +108,8 @@ class Library(Database):
     def __init__(self, wipe:bool=False) -> None:
         Database.__init__(self, dbname='library', wipe=wipe)
 ```
+
+--------
 
 ### Queries
 Queries have the syntax `TYPE or Unique Name: Semi-colon separated Conditions`. If we use the `Book` entry above, an example query could be `'book: author <%. "D"; title <%. "T"'`. This example would give the results of every book by an author that starts with (`<%`) "D", having a title that starts with "T", using a lowercase (`.`) comparison. The allowed datatypes in a query are `float`, `int`, `bool`, `str` and `list`. The syntax for each are as follows:
@@ -141,6 +147,8 @@ There are a number of comparison operators. Most of them are well-known and obvi
 |>=  | greater-than equals                        |
 |<   | less-than                                  |
 |>   | greater-than                               |
+
+--------
 
 ### UNIQUE
 
@@ -224,6 +232,8 @@ if __name__ == "__main__":
     # it's one of the main reasons I created this package
     print(db[unique_query])
 ```
+
+--------
 
 ### Foreign Keys
 
