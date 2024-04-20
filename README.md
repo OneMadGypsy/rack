@@ -380,6 +380,7 @@ if __name__ == "__main__":
     
     # query within the data of a tag
     # in this case: get all books from `rate_query` that specifically have a rating of 4
+    # `.query_all(the_query)` is a generator
     q = Query.statement('book_rating', 'rating==4')
     for entry in db.query_all(q):
         print(entry)
@@ -390,7 +391,7 @@ if __name__ == "__main__":
     db.sort()
 
     # backup the database
-    # this can except an argument that sets the filename for the backup
+    # this can except an argument that sets the filename (without extension) for the backup
     # if no argument is supplied the backup will have the same filename as the database name
     # `.restore()` works the same way but in the opposite direction
     db.backup()
