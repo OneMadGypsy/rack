@@ -279,3 +279,126 @@ print(ab_cee.books)
     "rating": 3
 }
 ```
+
+## Full Usage Example
+
+```
+from rack        import Database, Entry, Tag, Query, UNIQUE
+from dataclasses import dataclass, field
+from typing      import Iterable
+
+@dataclass
+class Book(Entry):
+    TYPE = "book"
+
+    title:str
+    author:str
+    rating:int = 0
+    
+    
+@dataclass
+class Author(Entry):
+    TYPE = "author"
+    
+    name:str
+    fk_books:list = field(default_factory=list)
+
+       
+class Library(Database):
+    TYPES = Author, Book
+    
+    BOOK_COUNTER  = 0
+    BOOK_RATER    = 1
+    
+    @property
+    def book_count(self) -> int:
+        return self.count(Book.TYPE)
+        
+    # format prepared statements  
+    
+    @staticmethod
+    def unique_book(*args, **kwargs) -> str:
+        conditions = 'author == {author} ; title == {title}'
+        return Query.statement(Book.TYPE, conditions, *args, **kwargs)
+    
+    @staticmethod    
+    def rated_books(*args, **kwargs) -> str:
+        conditions = '{} <= rating <= {} ; author -> {}'
+        return Query.statement(Book.TYPE, conditions, *args, **kwargs)
+        
+    @staticmethod    
+    def author_name(*args, **kwargs) -> str:
+        conditions = 'name == {}'
+        return Query.statement(Author.TYPE, conditions, *args, **kwargs)
+    
+    @staticmethod    
+    def author_startswith(*args, **kwargs) -> str:
+        conditions = 'name <%. {}'
+        return Query.statement(Author.TYPE, conditions, *args, **kwargs)
+        
+    def __init__(self, wipe:bool=False) -> None:
+        Database.__init__(self, dbname='library', wipe=wipe)
+            
+    def add_books(self, books:Iterable) -> None:
+        # `.next_id()` is a direct way to get the next available id
+        for i, book in enumerate(books, self.next_id(Book.TYPE)):
+            book = Book(i, **book)
+
+            # note `book.kwargs` this is an example of one of the features listed at the end of the `Entry` section 
+            book_query = Library.unique_book(**book.kwargs('title','author'))
+            auth_query = Library.author_name(book.author)
+
+            # this is how we test if entries exist before committing
+            # it's a lower level equivalent to `.make_once()` where you have to determine what to do if it has never been made
+            if not self.exists(book_query):
+                if not (author := self.exists(auth_query)):
+                    author = Author(UNIQUE, book.author)
+                    
+                if book.unique not in author.fk_books: 
+                    author.fk_books.append(book.unique)
+                    self[UNIQUE] = author              
+                    
+                self[UNIQUE] = book
+
+
+if __name__ == "__main__":
+    db = Library()
+
+    # pretend all of this data came from scraping a website or similar data gathering technique 
+    books = (dict(title="The A"         , rating=1, author="A.B. Cee"), 
+             dict(title="The B"         , rating=4, author="A.B. Cee"), 
+             dict(title="The C"         , rating=3, author="A.B. Cee"), 
+             dict(title="The D"         , rating=2, author="A.B. Cee"), 
+             dict(title="E Up!"         , rating=4, author="B.C. Dea"),
+             dict(title="F It!"         , rating=8, author="B.C. Dea"), 
+             dict(title="G For The Win!", rating=4, author="A.C. Ea" ), 
+             dict(title="On H Street"   , rating=3, author="A.C. Ea" ))
+             
+    db.add_books(books)
+    print('\nbook count:', db.book_count)
+
+    # create a Tag (ONCE) on the database that holds a query to all of the books of a specified rating by specified authors
+    rate_query = Library.rated_books(2, 5, ('A.B. Cee', 'B.C. Dea'))
+    db.make_once('book_rating', Tag(UNIQUE, fk_data=rate_query))
+    
+    # query within the data of a tag
+    # in this case: get all books from `rate_query` that specifically have a rating of 4
+    q = Query.statement('book_rating', 'rating==4')
+    for entry in db.query_all(q):
+        print(entry)
+
+    # sort the database
+    # this really shouldn't be floating around where it happens every time the program is run
+    # you should create conditions that determine whether or not it needs to be done
+    db.sort()
+
+    # backup the database
+    # this can except an argument that sets the filename for the backup
+    # if no argument is supplied the backup will have the same filename as the database name
+    # `.restore()` works the same way but in the opposite direction
+    db.backup()
+
+    # print the database as pretty-printed JSON
+    print(db)
+
+```
