@@ -307,9 +307,6 @@ class Author(Entry):
 class Library(Database):
     TYPES = Author, Book
     
-    BOOK_COUNTER  = 0
-    BOOK_RATER    = 1
-    
     @property
     def book_count(self) -> int:
         return self.count(Book.TYPE)
