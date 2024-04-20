@@ -1,5 +1,6 @@
 # rack
-A shelve warpper that adds numerous useful features 
+
+A shelve wrapper that adds numerous useful features 
 --------
 
 1) dictionary behavior (`db.keys()`, `db.values()`, `db.items()`, `db[id or query]`)
