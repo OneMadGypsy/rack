@@ -334,6 +334,7 @@ class Library(Database):
         return Query.statement(Author.TYPE, conditions, *args, **kwargs)
         
     def __init__(self, wipe:bool=False) -> None:
+        # note: the database does not support write-back. You have to manually (re)save entries after modifying them
         Database.__init__(self, dbname='library', wipe=wipe)
             
     def add_books(self, books:Iterable) -> None:
@@ -347,6 +348,7 @@ class Library(Database):
 
             # this is how we test if entries exist before committing
             # it's a lower level equivalent to `.make_once()` where you have to determine what to do if it has never been made
+            # `.exists()` returns the Entry if it does exist, which means it can have a dual purpose for retrieving a singular query result (the first match it finds)
             if not self.exists(book_query):
                 if not (author := self.exists(auth_query)):
                     author = Author(UNIQUE, book.author)
